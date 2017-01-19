@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: webpack+vue | 前端Diary</title>
+  <title>浏览器渲染机制 | 前端Diary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="前端Diary">
-<meta property="og:url" content="http://yoursite.com/tags/webpack-vue/index.html">
+  <meta name="description" content="下面讨论一下浏览器的渲染机制，这里指的浏览器是chrome。总结如下几个概念：1、DOM：Document Object Model，浏览器将HTML解析成树形的数据结构，简称DOM。2、CSSOM：CSS Object Model，浏览器将CSS代码解析成树形的数据结构。3、DOM 和 CSSOM 都是以 Bytes → characters → tokens → nodes → object">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器渲染机制">
+<meta property="og:url" content="http://yoursite.com/2017/01/19/浏览器渲染机制/index.html">
 <meta property="og:site_name" content="前端Diary">
+<meta property="og:description" content="下面讨论一下浏览器的渲染机制，这里指的浏览器是chrome。总结如下几个概念：1、DOM：Document Object Model，浏览器将HTML解析成树形的数据结构，简称DOM。2、CSSOM：CSS Object Model，浏览器将CSS代码解析成树形的数据结构。3、DOM 和 CSSOM 都是以 Bytes → characters → tokens → nodes → object">
+<meta property="og:updated_time" content="2017-01-19T08:20:56.253Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="前端Diary">
+<meta name="twitter:title" content="浏览器渲染机制">
+<meta name="twitter:description" content="下面讨论一下浏览器的渲染机制，这里指的浏览器是chrome。总结如下几个概念：1、DOM：Document Object Model，浏览器将HTML解析成树形的数据结构，简称DOM。2、CSSOM：CSS Object Model，浏览器将CSS代码解析成树形的数据结构。3、DOM 和 CSSOM 都是以 Bytes → characters → tokens → nodes → object">
   
     <link rel="alternative" href="/atom.xml" title="前端Diary" type="application/atom+xml">
   
@@ -137,60 +141,152 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-浏览器渲染机制" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/18/vue-cli配置说明/" class="archive-article-date">
-  	<time datetime="2017-01-18T05:30:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-18</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/18/vue-cli配置说明/">vue cli配置说明</a>
+    <h1 class="article-title" itemprop="name">
+      浏览器渲染机制
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/01/19/浏览器渲染机制/" class="archive-article-date">
+  	<time datetime="2017-01-19T01:44:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>下面讨论一下浏览器的渲染机制，这里指的浏览器是chrome。总结如下几个概念：<br>1、DOM：Document Object Model，浏览器将HTML解析成树形的数据结构，简称DOM。<br>2、CSSOM：CSS Object Model，浏览器将CSS代码解析成树形的数据结构。<br>3、DOM 和 CSSOM 都是以 Bytes → characters → tokens → nodes → object model. 这样的方式生成最终的数据。<br>   DOM 树的构建过程是一个深度遍历过程：当前节点的所有子节点都构建好后才会去构建当前节点的下一个兄弟节点。<br><a id="more"></a><br>4、Render Tree：DOM 和 CSSOM 合并后生成 Render Tree，<br>Render Tree 和DOM一样，以多叉树的形式保存了每个节点的css属性、节点本身属性、以及节点的孩子节点。<br>注意：display:none 的节点不会被加入 Render Tree，而 visibility: hidden 则会，所以，如果某个节点最开始是不显示的，设为 display:none 是更优的。</p>
+<p>浏览器的渲染过程<br>1.Create/Update DOM And request css/image/js：浏览器请求到HTML代码后，在生成DOM的最开始阶段（应该是 Bytes → characters 后），并行发起css、图片、js的请求，无论他们是否在HEAD里。<br>注意：发起 js 文件的下载 request 并不需要 DOM 处理到那个 script 节点，比如：简单的正则匹配就能做到这一点，虽然实际上并不一定是通过正则：）。这是很多人在理解渲染机制的时候存在的误区。<br>2.Create/Update Render CSSOM：CSS文件下载完成，开始构建CSSOM<br>3.Create/Update Render Tree：所有CSS文件下载完成，CSSOM构建结束后，和 DOM 一起生成 Render Tree。<br>4.Layout：有了Render Tree，浏览器已经能知道网页中有哪些节点、各个节点的CSS定义以及他们的从属关系。下一步操作称之为Layout，顾名思义就是计算出每个节点在屏幕中的位置。<br>5.Painting：Layout后，浏览器已经知道了哪些节点要显示（which nodes are visible）、每个节点的CSS属性是什么（their computed styles）、每个节点在屏幕中的位置是哪里（geometry）。就进入了最后一步：Painting，按照算出来的规则，通过显卡，把内容画到屏幕上。</p>
+<p>以上五个步骤前3个步骤之所有使用 “Create/Update” 是因为DOM、CSSOM、Render Tree都可能在第一次Painting后又被更新多次，比如JS修改了DOM或者CSS属性。<br>Layout 和 Painting 也会被重复执行，除了DOM、CSSOM更新的原因外，图片下载完成后也需要调用Layout 和 Painting来更新网页。</p>
+<p>实例：<br><a href="/img/timeline1.jpg">截图1</a><br><a href="/img/timeline2.jpg">截图2</a><br><a href="/img/timeline.jpg">截图3</a><br><a href="/img/timeline4.jpg">截图4</a><br>从上面的Timeline我们可以看出：<br>首屏时间和DomContentLoad事件没有必然的先后关系<br>所有CSS尽早加载是减少首屏时间的最关键<br>js的下载和执行会阻塞Dom树的构建（严谨地说是中断了Dom树的更新），所以script标签放在首屏范围内的HTML代码段里会截断首屏的内容。<br>普通script标签放在body底部，做与不做async或者defer处理，都不会影响首屏时间，但影响DomContentLoad和load的时间，进而影响依赖他们的代码的执行的开始时间。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">webpack+vue</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">web性能</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/01/19/浏览器渲染机制/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/01/18/vue-cli配置说明/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">vue cli配置说明</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -213,9 +309,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
