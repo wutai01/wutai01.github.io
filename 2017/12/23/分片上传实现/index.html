@@ -17,7 +17,7 @@
 <meta property="og:description" content="分片上传
 在更新宝项目中有大文件包上传的需求，为了防止文件过大所导致的上传超时的问题，所以进行分片上传。然后github那边找了一下，大致流程如下：第一步：按照 修改时间+文件名称+最后修改时间生成对应的MD5值第二步：跟服务端交互，校验文件的MD5值。如果存在相同的，那就说明文件已经存在（秒传)。并从后端返回得到分片的index数组（可以实现断点续传）。第三步：依次上传分片，上传参数 a. 分片">
 <meta property="og:image" content="http://yoursite.com/img/uploadSlice.png">
-<meta property="og:updated_time" content="2018-02-23T02:15:32.712Z">
+<meta property="og:updated_time" content="2018-02-23T03:29:09.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分片上传实现">
 <meta name="twitter:description" content="分片上传
@@ -200,6 +200,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">javascript</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -263,6 +274,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/01/20/基于neplayer-js的video推流播放器/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          基于neplayer.js的video推流播放器
+        
+      </div>
+    </a>
   
   
     <a href="/2017/02/10/js堆栈/" id="article-nav-older" class="article-nav-link-wrap">
@@ -370,7 +390,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">webpack+vue</a>
+                <a href="javascript:void(0)" class="js-tag color1">web性能</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -378,7 +398,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">web性能</a>
+                <a href="javascript:void(0)" class="js-tag color2">webpack+vue</a>
               </li>
             
             <div class="clearfix"></div>
